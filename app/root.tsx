@@ -1,32 +1,35 @@
-import type { MetaFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import type { MetaFunction } from '@remix-run/node';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import {MantineProvider, createEmotionCache, useMantineTheme} from '@mantine/core';
+import { StylesPlaceholder } from '@mantine/remix';
+// import { theme } from './theme';
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
+  charset: 'utf-8',
+  title: 'New Remix App',
+  viewport: 'width=device-width,initial-scale=1',
 });
 
+createEmotionCache({ key: 'mantine' });
+
 export default function App() {
-  return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
+    const theme = useMantineTheme();
+
+    return (
+      <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+        <html lang="en">
+        <head>
+          <StylesPlaceholder />
+          <Meta />
+          <Links /><title>Remix Playground</title>
+        </head>
+        <body>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-      </body>
-    </html>
+        </body>
+        </html>
+      </MantineProvider>
   );
 }
